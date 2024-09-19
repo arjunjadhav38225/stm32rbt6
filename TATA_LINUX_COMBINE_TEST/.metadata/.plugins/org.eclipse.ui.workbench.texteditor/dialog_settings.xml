@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="ADC_Init"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="adc_init"/>
+			<item value="adcChannel_config"/>
+			<item value="MX_ADC1_Init"/>
+			<item value="htim3"/>
+			<item value="MX_TIM3_Init"/>
+			<item value="HAL_TIM_Base_Start_IT"/>
+			<item value="CALLBACK"/>
+			<item value="TIM4_IRQHandler"/>
+			<item value="denit"/>
+			<item value="ADC_CHANNEL_11"/>
+			<item value="ADC_INIT"/>
+		</list>
+		<list key="replacehistory">
+			<item value=""/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1054"/>
+		<item key="DIALOG_Y_ORIGIN" value="249"/>
+		<item key="DIALOG_WIDTH" value="414"/>
+		<item key="DIALOG_HEIGHT" value="454"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+</section>

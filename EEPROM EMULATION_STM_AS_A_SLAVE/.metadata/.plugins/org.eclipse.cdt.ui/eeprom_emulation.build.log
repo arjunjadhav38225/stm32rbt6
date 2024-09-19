@@ -1,0 +1,29 @@
+00:09:58 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/i2c_slave.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c_slave.d" -MT"Core/Src/i2c_slave.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/i2c_slave.o"
+../Core/Src/i2c_slave.c: In function 'process_data':
+../Core/Src/i2c_slave.c:40:37: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+   40 |                                     printf("0x%02X \n", RxData[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:12:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   11 | #include "string.h"
+  +++ |+#include <stdio.h>
+   12 | 
+../Core/Src/i2c_slave.c:40:37: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+   40 |                                     printf("0x%02X \n", RxData[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:40:37: note: include '<stdio.h>' or provide a declaration of 'printf'
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18436	    112	   2200	  20748	   510c	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+
+00:09:59 Build Finished. 0 errors, 2 warnings. (took 660ms)
+

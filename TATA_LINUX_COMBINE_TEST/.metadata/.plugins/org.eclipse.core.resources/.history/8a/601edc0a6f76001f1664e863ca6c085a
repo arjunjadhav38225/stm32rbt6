@@ -1,0 +1,87 @@
+/*
+ * eeprom.c
+ *
+ *  Created on: Sep 2, 2024
+ *      Author: BACANCY
+ */
+
+
+#include "eeprom.h"
+#include <string.h> // For memcpy
+#include "i2c.h"
+
+extern I2C_HandleTypeDef hi2c1;
+
+// Write data to M24C04 EEPROM
+HAL_StatusTypeDef rEEpromWrite(uint16_t u16MemAddress, uint8_t *u8Data, uint16_t u16TotalData)
+{
+    HAL_StatusTypeDef status = HAL_OK;
+    uint16_t u16NoOfBytesWritten = 0;
+
+    if(((u16MemAddress + u16TotalData) <= EEPROM_TOTAL_MEMORY) && ((u8Data != NULL)) && (u16TotalData != 0))
+    {
+        while (u16NoOfBytesWritten < u16TotalData)
+        {
+            //Calculate the remaining space on the current page
+            uint16_t u16PageOffset = u16MemAddress % EEPROM_SINGLE_PAGE_SIZE;
+            uint16_t u16SpaceInPage = EEPROM_SINGLE_PAGE_SIZE - u16PageOffset;
+
+            // Determine the number of bytes to write in this iteration
+            uint16_t u16NumberOfbytesWrite = (u16TotalData - u16NoOfBytesWritten < u16SpaceInPage) ? (u16TotalData - u16NoOfBytesWritten) : u16SpaceInPage;
+
+            uint8_t u8WriteBuffer[2U + EEPROM_SINGLE_PAGE_SIZE] = {0}; // 2 bytes for address + up to 16 bytes of data
+
+            u8WriteBuffer[0] = (u16MemAddress >> 8) & 0xFF; // MSB of the memory address
+            u8WriteBuffer[1] = u16MemAddress & 0xFF;        // LSB of the memory address
+            memcpy(&u8WriteBuffer[2], &u8Data[u16NoOfBytesWritten], u16NumberOfbytesWrite);
+
+            // Write the data
+            status = HAL_I2C_Master_Transmit(&hi2c1, EEPROM_I2C_ADD1, u8WriteBuffer, u16NumberOfbytesWrite + 2, HAL_MAX_DELAY);
+            if (status != HAL_OK)
+            {
+                return status;
+            }
+
+            // Update the memory address and the number of bytes written
+            u16MemAddress += u16NumberOfbytesWrite;
+            u16NoOfBytesWritten += u16NumberOfbytesWrite;
+
+            // Wait for the EEPROM to complete the write operation
+            // Implement a small delay as needed
+            HAL_Delay(5); // Adjust the delay as required
+        }
+    }
+    else
+    {
+        status = HAL_ERROR;
+    }
+
+    return status;
+}
+
+// Read data from M24C04 EEPROM
+HAL_StatusTypeDef rEEpromRead(uint16_t u16MemAddress, uint8_t *u8Data, uint16_t u16Size)
+{
+    HAL_StatusTypeDef status;
+    if(((u16MemAddress + u16Size) <= EEPROM_TOTAL_MEMORY) && ((u8Data != NULL)) && (u16Size != 0))
+    {
+        uint8_t u8AddressBuffer[2];
+        u8AddressBuffer[0] = (u16MemAddress >> 8) & 0xFF; // MSB of the memory address
+        u8AddressBuffer[1] = u16MemAddress & 0xFF;        // LSB of the memory address
+
+        // Send the memory address
+        status = HAL_I2C_Master_Transmit(&hi2c1, EEPROM_I2C_ADD1, u8AddressBuffer, 2, HAL_MAX_DELAY);
+        if (status != HAL_OK)
+        {
+            return status;
+        }
+
+        // Read the data
+        status = HAL_I2C_Master_Receive(&hi2c1, EEPROM_I2C_ADD1, u8Data, u16Size, HAL_MAX_DELAY);
+    }
+    else
+    {
+        status = HAL_ERROR;
+    }
+    return status;
+}

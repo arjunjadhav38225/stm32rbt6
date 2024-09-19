@@ -1,0 +1,28 @@
+16:32:41 **** Incremental Build of configuration Debug for project TATA_LINUX_DUMMY ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F102xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+In file included from ../Core/Inc/ssd1306.h:33,
+                 from ../Core/Src/main.c:27:
+../Core/Inc/fonts.h:32:1: warning: "/*" within comment [-Wcomment]
+   32 | /* C++ detection */
+      |  
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:176:25: warning: unused variable 'time' [-Wunused-variable]
+  176 |         static uint32_t time = 0;
+      |                         ^~~~
+At top level:
+../Core/Src/main.c:176:25: warning: 'time' defined but not used [-Wunused-variable]
+arm-none-eabi-gcc -o "TATA_LINUX_DUMMY.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\TATA_LINUX_uart_i2c\TATA_LINUX_DUMMY\STM32F102RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TATA_LINUX_DUMMY.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: TATA_LINUX_DUMMY.elf
+ 
+arm-none-eabi-size  TATA_LINUX_DUMMY.elf 
+arm-none-eabi-objdump -h -S TATA_LINUX_DUMMY.elf  > "TATA_LINUX_DUMMY.list"
+   text	   data	    bss	    dec	    hex	filename
+  21788	    104	   2128	  24020	   5dd4	TATA_LINUX_DUMMY.elf
+Finished building: default.size.stdout
+ 
+Finished building: TATA_LINUX_DUMMY.list
+ 
+
+16:32:42 Build Finished. 0 errors, 3 warnings. (took 1s.117ms)
+

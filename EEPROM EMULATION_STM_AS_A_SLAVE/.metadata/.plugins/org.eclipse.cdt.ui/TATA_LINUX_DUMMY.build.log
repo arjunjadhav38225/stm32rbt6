@@ -1,0 +1,10 @@
+00:09:58 **** Incremental Build of configuration Debug for project TATA_LINUX_DUMMY ****
+make -j8 all 
+arm-none-eabi-size  TATA_LINUX_DUMMY.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16664	    112	   2136	  18912	   49e0	TATA_LINUX_DUMMY.elf
+Finished building: default.size.stdout
+ 
+
+00:09:58 Build Finished. 0 errors, 0 warnings. (took 206ms)
+

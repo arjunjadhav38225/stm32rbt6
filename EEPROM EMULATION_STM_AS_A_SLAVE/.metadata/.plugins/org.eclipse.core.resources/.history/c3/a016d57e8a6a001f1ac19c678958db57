@@ -1,0 +1,47 @@
+/*
+ * i2c_slave.c
+ *
+ *  Created on: Sep 4, 2024
+ *      Author: bacancy
+ */
+#include "main.h"
+#include "i2c_slave.h"
+
+extern I2C_HandleTypeDef hi2c1;
+#define RxSIZE 6
+uint8_t RxData[RxSIZE];
+int count=0;
+void HAL_ListenCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+    // Re-enable listening mode after the listen cycle is completed
+    HAL_I2C_EnableListen_IT(hi2c);
+}
+
+void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, uint16_t AddrMatchCode)
+{
+    if (TransferDirection == I2C_DIRECTION_TRANSMIT)
+    {
+        // The master is sending data to the slave
+        HAL_I2C_Slave_Sequential_Receive_IT(hi2c, RxData, RxSIZE, I2C_FIRST_AND_LAST_FRAME);
+    }
+    else
+    {
+        // The master is requesting data from the slave
+        Error_Handler(); // You can modify this to handle sending data if needed
+    }
+}
+
+void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+    // Data reception complete, increment the counter
+    count++;
+
+    // Re-enable listening mode to handle the next communication
+    HAL_I2C_EnableListen_IT(hi2c);
+}
+
+void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c)
+{
+    // Re-enable listening mode in case of an error
+    HAL_I2C_EnableListen_IT(hi2c);
+}

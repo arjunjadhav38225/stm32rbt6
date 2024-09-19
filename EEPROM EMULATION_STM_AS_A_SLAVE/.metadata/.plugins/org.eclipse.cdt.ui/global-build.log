@@ -1,0 +1,185 @@
+23:45:56 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  16820	    112	   2200	  19132	   4abc	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+23:48:25 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:109:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+  109 |                 if (rcvd_cmpltd==1)
+      |                 ^~
+../Core/Src/main.c:114:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+  114 |                         rcvd_cmpltd=0;
+      |                         ^~~~~~~~~~~
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18584	    112	   2200	  20896	   51a0	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+23:51:18 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18464	    112	   2200	  20776	   5128	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+23:55:52 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-size  eeprom_emulation.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18464	    112	   2200	  20776	   5128	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+23:59:12 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/i2c_slave.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c_slave.d" -MT"Core/Src/i2c_slave.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/i2c_slave.o"
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18464	    112	   2200	  20776	   5128	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+00:03:43 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/i2c_slave.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c_slave.d" -MT"Core/Src/i2c_slave.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/i2c_slave.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/i2c_slave.c: In function 'process_data':
+../Core/Src/i2c_slave.c:40:37: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+   40 |                                     printf("0x%02X \n", RxData[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:12:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   11 | #include "string.h"
+  +++ |+#include <stdio.h>
+   12 | 
+../Core/Src/i2c_slave.c:40:37: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+   40 |                                     printf("0x%02X \n", RxData[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:40:37: note: include '<stdio.h>' or provide a declaration of 'printf'
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18436	    112	   2200	  20748	   510c	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+00:05:02 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/i2c_slave.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c_slave.d" -MT"Core/Src/i2c_slave.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/i2c_slave.o"
+../Core/Src/i2c_slave.c: In function 'process_data':
+../Core/Src/i2c_slave.c:46:37: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+   46 |                                     printf("0x%02X \n", I2C_REGISTERS[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:12:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   11 | #include "string.h"
+  +++ |+#include <stdio.h>
+   12 | 
+../Core/Src/i2c_slave.c:46:37: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+   46 |                                     printf("0x%02X \n", I2C_REGISTERS[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:46:37: note: include '<stdio.h>' or provide a declaration of 'printf'
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18436	    112	   2200	  20748	   510c	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+00:08:55 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/i2c_slave.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c_slave.d" -MT"Core/Src/i2c_slave.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/i2c_slave.o"
+../Core/Src/i2c_slave.c: In function 'process_data':
+../Core/Src/i2c_slave.c:47:37: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+   47 |                                     printf("0x%02X \n", I2C_REGISTERS[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:12:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   11 | #include "string.h"
+  +++ |+#include <stdio.h>
+   12 | 
+../Core/Src/i2c_slave.c:47:37: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+   47 |                                     printf("0x%02X \n", I2C_REGISTERS[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:47:37: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/i2c_slave.c:39:13: warning: unused variable 'indx' [-Wunused-variable]
+   39 |         int indx = 1;  // set the indx to 1 in order to start reading from RxData[1]
+      |             ^~~~
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18436	    112	   2200	  20748	   510c	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 
+00:09:58 **** Incremental Build of configuration Debug for project TATA_LINUX_DUMMY ****
+make -j8 all 
+arm-none-eabi-size  TATA_LINUX_DUMMY.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16664	    112	   2136	  18912	   49e0	TATA_LINUX_DUMMY.elf
+Finished building: default.size.stdout
+ 
+00:09:58 **** Incremental Build of configuration Debug for project eeprom_emulation ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/i2c_slave.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c_slave.d" -MT"Core/Src/i2c_slave.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/i2c_slave.o"
+../Core/Src/i2c_slave.c: In function 'process_data':
+../Core/Src/i2c_slave.c:40:37: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+   40 |                                     printf("0x%02X \n", RxData[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:12:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   11 | #include "string.h"
+  +++ |+#include <stdio.h>
+   12 | 
+../Core/Src/i2c_slave.c:40:37: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+   40 |                                     printf("0x%02X \n", RxData[i]);
+      |                                     ^~~~~~
+../Core/Src/i2c_slave.c:40:37: note: include '<stdio.h>' or provide a declaration of 'printf'
+arm-none-eabi-gcc -o "eeprom_emulation.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\bacancy\Desktop\Embedded_target\target\my_project\STM32_f103rbt6\EEPROM EMULATION\eeprom_emulation\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="eeprom_emulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: eeprom_emulation.elf
+ 
+arm-none-eabi-size  eeprom_emulation.elf 
+arm-none-eabi-objdump -h -S eeprom_emulation.elf  > "eeprom_emulation.list"
+   text	   data	    bss	    dec	    hex	filename
+  18436	    112	   2200	  20748	   510c	eeprom_emulation.elf
+Finished building: default.size.stdout
+ 
+Finished building: eeprom_emulation.list
+ 

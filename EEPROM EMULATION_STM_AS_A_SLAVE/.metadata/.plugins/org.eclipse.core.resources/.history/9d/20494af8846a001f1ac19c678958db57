@@ -1,0 +1,13 @@
+/*
+ * i2c_slave.c
+ *
+ *  Created on: Sep 4, 2024
+ *      Author: bacancy
+ */
+#include "main.h"
+#include "i2c_slave.h"
+
+extern I2C_HandleTypeDef hi2c1;
+#define RxSIZE 6;
+uint8_t RxData[RxSIZE];
+

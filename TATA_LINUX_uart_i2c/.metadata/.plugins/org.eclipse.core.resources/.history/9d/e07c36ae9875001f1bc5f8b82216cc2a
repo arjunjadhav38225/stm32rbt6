@@ -1,0 +1,520 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "i2c.h"
+#include "stdio.h"
+#include "bitmap.h"
+#include "ssd1306.h"
+#include <stdarg.h>
+#include "eeprom.h"
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+#define MAX_BUFFER_SIZE 64
+#define EEPROM_I2C_ADD1 0x56
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+
+UART_HandleTypeDef huart1;
+
+/* USER CODE BEGIN PV */
+extern I2C_HandleTypeDef hi2c1;
+//TIM_MasterConfigTypeDef sMasterConfig = { 0 };
+//TIM_OC_InitTypeDef sConfigOC = { 0 };
+uint8_t dutyCycle = 0;    // Global variable for setting duty cycle (0 to 100)
+uint32_t dutyToPulse;
+char rcvbyte;
+char msg;  // Buffer for UART messages
+uint8_t u8data[3] = {0x01,0x02,0x03};
+char test_result;
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ADC1_Init(void);
+static void MX_USART1_UART_Init(void);
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART1)
+  {
+    printf("Received: %c\n", rcvbyte);
+//    if(rcvbyte)
+//  {
+
+//    HAL_UART_DeInit(&huart1);
+//    MX_I2C1_Init();
+//    //HAL_I2C_Master_Transmit(&hi2c1,0x30,u8data,sizeof(u8data),HAL_MAX_DELAY);
+//    SSD1306_Init();
+//    SSD1306_Clear();
+//    SSD1306_DrawBitmap(0, 0, logo, 128, 64, 1);
+//    SSD1306_UpdateScreen();
+//    HAL_I2C_DeInit(&hi2c1);
+//    MX_USART1_UART_Init();
+    msg = rcvbyte;
+    printf("Received %d\n",rcvbyte);
+//  }
+  // Store received byte in msg
+//  if (rcvbyte != '\r')
+//  {
+    msg  = rcvbyte;
+//  }
+
+  // If newline character received, process the message
+//  if (rcvbyte == '\r') {
+//
+//    printf("Received msg: %c\n", msg);
+//    //            Process_UART_Message();
+//
+//  }
+
+    // Restart UART reception
+    HAL_UART_Receive_IT(&huart1, (uint8_t*) &rcvbyte, 1);
+  }
+}
+
+
+int _write(int file, char *ptr, int len)
+{
+for(int i=0; i<len; i++)
+{
+	ITM_SendChar(*ptr++);
+	}
+return len;
+}
+
+void CLIPrint(char *fmt, ...)
+{
+    char buf[1000];
+    va_list vl;
+
+    va_start(vl, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, vl);
+    va_end(vl);
+
+    HAL_UART_Transmit(&huart1, (uint8_t *)buf, strlen(buf), 100);
+}
+
+void SendTestResults(uint8_t *buffer )
+{
+    for (uint8_t i = 0; i < 32; i++)
+    {
+        if (buffer[i] == 1)
+        {
+            // Send pass message
+            CLIPrint("Passed to write 0x00 page %d\r\n",i);
+        }
+        else
+        {
+            // Send fail message
+            CLIPrint("Failed to write 0x00 page %d\r\n",i);
+        }
+    }
+
+    for (uint8_t i = 0; i < 32; i++)
+    {
+        if (buffer[i+31] == 1)
+        {
+            // Send pass message
+            CLIPrint("Passed to write 0xff page %d\r\n",i);
+        }
+        else
+        {
+            // Send fail message
+            CLIPrint("Failed to write 0xff page %d\r\n",i);
+        }
+    }
+}
+
+HAL_StatusTypeDef I2C_ScanDevice(uint8_t deviceAddress)
+{
+    HAL_StatusTypeDef status;
+
+// Try to communicate with the device
+    status = HAL_I2C_IsDeviceReady(&hi2c1, deviceAddress, 1, 10);  // 1 retry, timeout 10ms
+    if (status == HAL_OK)
+    {
+        return HAL_OK;  // Device found
+    }
+    else
+    {
+        return HAL_ERROR;  // Device not found
+    }
+}
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+   printf("enter in main loop \n");
+   static uint32_t time = 0;
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_ADC1_Init();
+  //MX_I2C1_Init();
+
+  MX_USART1_UART_Init();
+  /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_IT(&huart1, (uint8_t*) &rcvbyte, 1);
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+	   if ('1' == msg)
+	        {
+	            uint32_t startTick = HAL_GetTick();
+	            uint32_t delay = 96000000 ;  // 12 seconds in milliseconds
+	            test_result = 'P';
+	            HAL_UART_DeInit(&huart1);
+	            MX_I2C1_Init();
+	            uint8_t eeprom_test_results[MAX_BUFFER_SIZE] =
+	            { 0 }; // Buffer to store test results
+	            uint8_t test_page = 0x01;  // Example starting page
+	            int offset = 0;
+	            msg = 0;
+	            uint8_t eeprom_write_data1[EEPROM_SINGLE_PAGE_SIZE] =
+	            { 0x00 };
+	            uint8_t eeprom_write_data2[EEPROM_SINGLE_PAGE_SIZE] =
+	            { 0xff };
+	            uint8_t readData[EEPROM_SINGLE_PAGE_SIZE];  // Buffer to hold read data
+
+	//Scan the slave addresses 0x56 and 0x57
+	            HAL_StatusTypeDef status;
+//	            HAL_StatusTypeDef status = I2C_ScanDevice(EEPROM_I2C_ADD1);
+//	//                       I2C_ScanDevice(EEPROM_I2C_ADD2);
+                status = HAL_OK;
+	            if (status == HAL_OK)
+	            {
+	// Write 0x00 to 32 pages and check
+	                for (uint16_t page = 0; page < EEPROM_TOTAL_PAGES; page++)
+	                {
+	// Perform EEPROM write and read operations here
+	                    uint16_t startAddress = page * EEPROM_SINGLE_PAGE_SIZE;
+	                    rEEpromWrite(startAddress, eeprom_write_data1, EEPROM_SINGLE_PAGE_SIZE);
+	                    HAL_Delay(5); //5ms delay
+
+	                    rEEpromRead(startAddress, readData, EEPROM_SINGLE_PAGE_SIZE);
+
+	// Check if all bytes in the page are 0x00
+	                    for (uint16_t i = 0; i < EEPROM_SINGLE_PAGE_SIZE; i++)
+	                    {
+	                        if (1)
+	                        {
+	                            eeprom_test_results[offset] = 0; // Pass
+	                        }
+	                        else
+	                        {
+	                            eeprom_test_results[offset] = 1; // fail
+	                            test_result = 'F';
+	                            break;
+	                        }
+	                    }
+	                    offset++;
+	                    test_page++;
+	                    if (offset >= MAX_BUFFER_SIZE)
+	                    {
+	                        break;  // Exit if buffer is full
+	                    }
+	                }
+
+	// Write 0xff to 32 pages and check
+	                for (uint16_t page = 0; page < EEPROM_TOTAL_PAGES; page++)
+	                {
+	// Perform EEPROM write and read operations here
+	                    uint16_t startAddress = page * EEPROM_SINGLE_PAGE_SIZE;
+	                    rEEpromWrite(startAddress, eeprom_write_data2, EEPROM_SINGLE_PAGE_SIZE);
+	                    HAL_Delay(5); //5ms delay
+
+	                    rEEpromRead(startAddress, readData, EEPROM_SINGLE_PAGE_SIZE);
+
+	// Check if all bytes in the page are 0x00
+	                    for (uint16_t i = 0; i < EEPROM_SINGLE_PAGE_SIZE; i++)
+	                    {
+	                        if (0)
+	                        {
+	                            eeprom_test_results[offset] = 0; // Pass
+	                        }
+	                        else
+	                        {
+	                            eeprom_test_results[offset] = 1; // fail
+	                            test_result = 'F';
+	                            break;
+	                        }
+	                    }
+
+	                    offset++;
+	                    test_page++;
+	                    if (offset >= MAX_BUFFER_SIZE)
+	                    {
+	                        break;  // Exit if buffer is full
+	                    }
+	                }
+	                HAL_I2C_DeInit(&hi2c1);
+	                MX_USART1_UART_Init();
+	                HAL_UART_Receive_IT(&huart1, (uint8_t*) &rcvbyte, 1);
+	                while ((HAL_GetTick() - startTick) ==  delay)
+	                {
+	// Wait until 12 seconds have elapsed
+	                    SendTestResults(eeprom_test_results);
+	                }
+
+	                HAL_UART_Transmit(&huart1, (uint8_t*) &test_result, 1,
+	                HAL_MAX_DELAY);
+	            }
+
+	        }
+    /* USER CODE BEGIN 3 */
+//	  if(HAL_GetTick() >= (time))
+//	  {
+//		  time = time + 100;
+//		  printf("i2c = %ld\r\n",time);
+//		  HAL_I2C_Master_Transmit(&hi2c1,0x30,u8data,sizeof(u8data),100);
+//	  }
+  }
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV2;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+
+  /** Common config
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_11;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
+}
+
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */
